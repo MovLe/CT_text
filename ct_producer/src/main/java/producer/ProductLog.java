@@ -1,6 +1,5 @@
 package producer;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -119,10 +118,22 @@ public class ProductLog {
      **/
     private String ramdomBuildTime(String startTime, String endTime) {
 
-        SimpleDateFormat sdf1= new SimpleDateFormat("YYYY-mm-dd");
+        SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date startDate = sdf1.parse(startTime);
             Date endDate = sdf1.parse(endTime);
+
+            if(endDate.getTime() <= startDate.getTime()){
+                return null;
+            }
+
+            long radomTime = (long) (startDate.getTime() + (endDate.getTime() - startDate.getTime())*Math.random());
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date ramdomTS = new Date(radomTime);
+
+            String resultTimeLong = sdf2.format(ramdomTS);
+
+            return resultTimeLong;
 
 
         } catch (ParseException e) {
