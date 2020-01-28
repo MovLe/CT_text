@@ -1,5 +1,6 @@
 package producer;
 
+import java.io.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,7 +139,7 @@ public class ProductLog {
      * @Param [startTime, endTime]
      * @return java.lang.String
      **/
-    private String ramdomBuildTime(String startTime, String endTime) {
+    public String ramdomBuildTime(String startTime, String endTime) {
 
         SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -165,19 +166,36 @@ public class ProductLog {
         return null;
     }
 
+    public void writeLog(String filepath){
+        try {
+            OutputStreamWriter ows = new OutputStreamWriter(new FileOutputStream(filepath,true),"UTF-8");
+            while(true){
+
+                Thread.sleep(200);
+                String log = product();
+                System.out.println(log);
+
+                ows.write(log+"\n");
+                ows.flush();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
+        args =new String[]{"/Users/macbook/TestInfo/calllog.csv"};
+
+        if(args==null||args.length<=0){
+            System.out.println("没写路径");
+            return;
+        }
+
         ProductLog productLog = new ProductLog();
 
         productLog.initPhone();
-
-
-        for (int i = 0; i <100 ; i++) {
-
-            String pr = productLog.product();
-            System.out.println(pr);
-
-        }
-
+        productLog.writeLog(args[0]);
 
 
     }
