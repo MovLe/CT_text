@@ -1,9 +1,9 @@
 package producer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @ClassName ProductLog
@@ -16,6 +16,9 @@ import java.util.Map;
 
 
 public class ProductLog {
+
+    private String startTime="2020-01-01";
+    private String endTime="2020-05-01";
 
     private List<String> phoneList = new ArrayList<String>();
 
@@ -76,6 +79,67 @@ public class ProductLog {
         phoneNameMap.put("15064972307", "冯怜云");
 
 
+    }
+
+    public void product(){
+        String caller = null;
+        String callerName=null;
+
+        String callee = null;
+        String calleeName=null;
+
+        int CallerIndex = (int) Math.random()*phoneList.size();
+
+        caller = phoneList.get(CallerIndex);
+        callerName=phoneNameMap.get(caller);
+
+        while(true){
+            int CalleeIndex = (int)Math.random()*phoneList.size();
+            callee=phoneList.get(CalleeIndex);
+            if(callee.equals(caller)) {
+                break;
+            }
+            calleeName=phoneNameMap.get(callee);
+
+        }
+
+
+        ramdomBuildTime(startTime,endTime);
+
+
+    }
+
+    /**
+     * @Author Movle
+     * @Description 获取通话产生的时间
+     * 公式：startTime+（endTime-startTime ）
+     * @Date 4:30 下午 1/28/20
+     * @Param [startTime, endTime]
+     * @return java.lang.String
+     **/
+    private String ramdomBuildTime(String startTime, String endTime) {
+
+        SimpleDateFormat sdf1= new SimpleDateFormat("YYYY-mm-dd");
+        try {
+            Date startDate = sdf1.parse(startTime);
+            Date endDate = sdf1.parse(endTime);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+
+
+
+        return null;
     }
 
 }
