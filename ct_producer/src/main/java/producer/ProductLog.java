@@ -1,5 +1,6 @@
 package producer;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -80,32 +81,53 @@ public class ProductLog {
 
     }
 
-    public void product(){
+
+    /**
+     * 产生通话数据log
+     * 格式:caller,callee,buildTime,duration
+     * @return
+     */
+    public String product(){
         String caller = null;
         String callerName=null;
 
         String callee = null;
         String calleeName=null;
 
-        int CallerIndex = (int) Math.random()*phoneList.size();
+        int CallerIndex = (int)(Math.random()*phoneList.size());
 
+        //System.out.println("主叫index"+CallerIndex);
         caller = phoneList.get(CallerIndex);
         callerName=phoneNameMap.get(caller);
 
-        while(true){
-            int CalleeIndex = (int)Math.random()*phoneList.size();
+        for (int i = 0; i <10 ; i++) {
+
+            int CalleeIndex = (int)(Math.random()*phoneList.size());
+
+            //System.out.println("被叫index："+CalleeIndex);
             callee=phoneList.get(CalleeIndex);
-            if(callee.equals(caller)) {
+
+            calleeName=phoneNameMap.get(callee);
+            if(!callee.equals(caller)) {
                 break;
             }
-            calleeName=phoneNameMap.get(callee);
-
         }
 
 
-        ramdomBuildTime(startTime,endTime);
+
+        //第三个字段：通话产生的时间
+        String buildTime = ramdomBuildTime(startTime, endTime);
+
+        //第四个字段：通话时长，秒
+        DecimalFormat df1 = new DecimalFormat("0000");
+        String duration = df1.format((int)(30 * 60 * Math.random()));
 
 
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(caller+",").append(callee+",").append(buildTime+",").append(duration);
+
+        return sb.toString();
     }
 
     /**
@@ -140,17 +162,23 @@ public class ProductLog {
             e.printStackTrace();
         }
 
-
-
-
-
-
-
-
-
-
-
         return null;
     }
 
+    public static void main(String[] args) {
+        ProductLog productLog = new ProductLog();
+
+        productLog.initPhone();
+
+
+        for (int i = 0; i <100 ; i++) {
+
+            String pr = productLog.product();
+            System.out.println(pr);
+
+        }
+
+
+
+    }
 }
