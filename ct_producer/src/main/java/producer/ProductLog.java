@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * @ClassName ProductLog
- * @MethodDesc: TODO ProductLog功能介绍
+ * @MethodDesc: 产生通信数据log
  * @Author Movle
  * @Date 1/28/20 3:18 下午
  * @Version 1.0
